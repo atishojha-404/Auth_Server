@@ -1,0 +1,4 @@
+FROM openjdk:17
+COPY target/security.jar /app/auth_server.jar
+EXPOSE 8080
+CMD ["java", "-jar", "/app/auth_server.jar"]
