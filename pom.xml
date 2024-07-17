@@ -11,7 +11,7 @@
 	<groupId>com.ojha</groupId>
 	<artifactId>Auth Server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Security</name>
+	<name>Auth Server</name>
 	<description>Project for Spring Boot Auth Server</description>
 	<properties>
 		<java.version>17</java.version>

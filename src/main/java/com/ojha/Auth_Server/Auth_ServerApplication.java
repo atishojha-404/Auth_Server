@@ -38,7 +38,7 @@ public class Auth_ServerApplication {
 						.name("ADMIN")
 						.build());
 			}
-			if (userRepository.findByEmail("codepaltech@gmail.com").isEmpty()) {
+			if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
 				final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 				var userRole = roleRepository.findByName("SUPER_ADMIN")
 						.orElseThrow(() -> new CustomException("ROLE was not initialized, Contact to admin."));
