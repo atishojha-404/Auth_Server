@@ -4,6 +4,8 @@ import com.ojha.Auth_Server.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
@@ -14,9 +16,12 @@ import lombok.*;
 public class Token {
 //    This is OTP code for use not JWT
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id = UUID.randomUUID().toString();
     private String token;
     private String tokenType;
 

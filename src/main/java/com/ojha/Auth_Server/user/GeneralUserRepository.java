@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface GeneralUserRepository extends JpaRepository<User, Integer> {
+public interface GeneralUserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
 

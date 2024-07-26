@@ -27,8 +27,9 @@ import java.util.stream.Collectors;
 public class User implements UserDetails, Principal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
     @Column(unique = true)
     private String email;
     private String password;

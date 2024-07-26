@@ -22,8 +22,9 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.UUID)
+    private String id;
+
     @Column(unique = true)
     private String name;
 
