@@ -12,6 +12,7 @@ public class AuthenticationResponse {
     private String accessToken;
     private String tokenType;
     private Long expiresIn;
+    private String sessionId;
     private String userEmail;
     private String role;
     private String errorMessage;

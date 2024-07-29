@@ -2,6 +2,7 @@ package com.ojha.Auth_Server.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,9 +70,32 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .claim("authorities", authorities)
-                .signWith(getSignInKey())
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+
+//From session check
+    public String generateTokenForSession(Map<String, Object> claims, String username, Collection<? extends GrantedAuthority> authorities){
+        return createToken(claims, username, JWT_EXPIRATION, authorities);
+    }
+
+    private String createToken(Map<String, Object> extraClaims,
+                               String username,
+                               long jwtExpiration,
+                               Collection<? extends GrantedAuthority> authorities) {
+
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .claim("authorities", authorities)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
 
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);

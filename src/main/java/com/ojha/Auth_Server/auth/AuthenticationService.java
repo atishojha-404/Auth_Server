@@ -1,5 +1,8 @@
 package com.ojha.Auth_Server.auth;
 
+import com.ojha.Auth_Server.session.GeneralSessionRepository;
+import com.ojha.Auth_Server.session.Session;
+import com.ojha.Auth_Server.session.SessionService;
 import com.ojha.Auth_Server.Token.GeneralTokenRepository;
 import com.ojha.Auth_Server.Token.Token;
 import com.ojha.Auth_Server.Token.TokenType;
@@ -36,6 +39,9 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final SessionService sessionService;
+    private final GeneralSessionRepository generalSessionRepository;
+
     @Value("${application.security.jwt.expiration}")
     private Long JWT_TOKEN_EXPIRE_IN;
     @Value("${application.security.OTP.expiration}")
@@ -121,12 +127,33 @@ public class AuthenticationService {
 
         var user = (User) auth.getPrincipal();
         var claims = new HashMap<String, Object>();
+        String sessionId;
+        String existingSessionId = sessionService.findSessionIdByEmail(user.getUsername());
+
+        if(existingSessionId == null){
+            Session session = sessionService.createSessionId(user.getUsername());
+            sessionId = session.getSessionId();
+        }else {
+            Session session = generalSessionRepository.findBySessionId(existingSessionId).get();
+            if(session.getExpiresAt().compareTo(Instant.now().toEpochMilli()) < 0) {
+                session.setValid(false);
+                generalSessionRepository.save(session);
+                Session session1 = sessionService.createSessionId(user.getUsername());
+                sessionId = session1.getSessionId();
+            }else {
+                sessionId = existingSessionId;
+            }
+        }
+
         claims.put("email", user.getUsername());
+        claims.put("session_id", sessionId);
         String jwtToken = jwtService.generateToken(claims, user);
+
 
         return AuthenticationResponse.builder()
                 .userEmail(user.getUsername())
                 .accessToken(jwtToken)
+                .sessionId(sessionId)
                 .role(user.getAuthorities().toString())
                 .tokenType("Bearer")
                 .expiresIn(Instant.now().toEpochMilli() + JWT_TOKEN_EXPIRE_IN)

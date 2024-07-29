@@ -212,7 +212,7 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/Change-password-token-confirm")
+    @RequestMapping(method = RequestMethod.GET, value = "/change-password-token-confirm")
     public ResponseEntity<GlobalResponse<RegistrationResponse>> confirmForgotPassCode(@RequestParam String email, @RequestParam String token, HttpServletRequest httpServletRequest){
         try {
             RegistrationResponse registrationResponse = authenticationService.confirmChangePassCode(email, token);

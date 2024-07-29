@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
     private static final List<String> WHITELIST_URLS = List.of(
             "/api/v1/auth/authenticate",
-//            "/api/v1/auth/**",
+            "/api/v1/session/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
