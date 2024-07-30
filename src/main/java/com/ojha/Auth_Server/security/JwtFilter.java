@@ -35,6 +35,11 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+//        let it pass if it is from "api/v1/session/"
+        if(request.getServletPath().contains("api/v1/session/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String authHeader = request.getHeader(AUTHORIZATION);
         final String jwt;
         final String userEmail;
@@ -70,7 +75,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-
         }
         filterChain.doFilter(request, response);
     }

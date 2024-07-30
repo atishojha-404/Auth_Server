@@ -26,7 +26,7 @@ public class SessionController {
     @RequestMapping(method = RequestMethod.POST, value = "/")
     public ResponseEntity<GlobalResponse<AuthenticationResponse>> session(@RequestBody SessionRequestDto sessionRequestDto, HttpServletRequest httpServletRequest) {
         try {
-            AuthenticationResponse authenticationResponse = sessionService.verifySessionId(sessionRequestDto.getSessionId(), sessionRequestDto.getEmail());
+            AuthenticationResponse authenticationResponse = sessionService.verifySessionId(sessionRequestDto.getSessionId(), sessionRequestDto.getEmail(), httpServletRequest);
             GlobalResponse<AuthenticationResponse> globalResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .data(authenticationResponse)
                     .status(HttpStatus.OK.value())

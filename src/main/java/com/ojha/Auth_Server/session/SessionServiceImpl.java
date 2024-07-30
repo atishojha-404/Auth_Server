@@ -5,6 +5,7 @@ import com.ojha.Auth_Server.handler.CustomException;
 import com.ojha.Auth_Server.security.JwtService;
 import com.ojha.Auth_Server.user.GeneralUserRepository;
 import com.ojha.Auth_Server.user.User;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -69,12 +70,19 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public AuthenticationResponse verifySessionId(String sessionId, String email) {
+    public AuthenticationResponse verifySessionId(String sessionId, String email, HttpServletRequest httpServletRequest) {
         try {
             Session session = generalSessionRepository.findBySessionId(sessionId).orElseThrow(() -> new CustomException("Invalid Session"));
             String sessionIdByEmail = findSessionIdByEmail(email);
 
-            if (session == null || !sessionId.equals(sessionIdByEmail)) {
+            String headerSessionId = null;
+            String authorizationHeader = httpServletRequest.getHeader("Authorization");
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                String token = authorizationHeader.substring(7); // Remove "Bearer " prefix
+                headerSessionId = jwtService.extractSessionId(token);
+            }
+
+            if (session == null || !sessionId.equals(sessionIdByEmail) || !sessionId.equals(headerSessionId)) {
                 throw new CustomException("Invalid Session");
             }
 

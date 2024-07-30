@@ -1,6 +1,7 @@
 package com.ojha.Auth_Server.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -74,8 +75,25 @@ public class JwtService {
                 .compact();
     }
 
+    public boolean isTokenValid(String token, UserDetails userDetails){
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
 
-//From session check
+    private boolean isTokenExpired(String token) {
+        return extractException(token).before(new Date());
+    }
+
+    private Date extractException(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    //From session check
     public String generateTokenForSession(Map<String, Object> claims, String username, Collection<? extends GrantedAuthority> authorities){
         return createToken(claims, username, JWT_EXPIRATION, authorities);
     }
@@ -96,23 +114,28 @@ public class JwtService {
                 .compact();
     }
 
-
-    public boolean isTokenValid(String token, UserDetails userDetails){
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//    Other Claims for session
+    public String extractExtraClaim(String token, String claimKey) {
+        Claims claims = getClaimsFromExpiredToken(token);
+        return claims.get(claimKey).toString();
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractException(token).before(new Date());
+    public String extractSessionId(String token) {
+        return extractExtraClaim(token, "session_id");
     }
 
-    private Date extractException(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
+    public Claims getClaimsFromExpiredToken(String token) {
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
 
-    private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
 }
