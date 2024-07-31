@@ -39,7 +39,7 @@ public class SessionController {
             GlobalResponse<AuthenticationResponse> errorResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .status(HttpStatus.UNAUTHORIZED.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();

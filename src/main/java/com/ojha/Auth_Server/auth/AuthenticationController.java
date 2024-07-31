@@ -41,7 +41,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.UNAUTHORIZED.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -50,7 +50,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -59,7 +59,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.BAD_GATEWAY.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -68,7 +68,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -93,7 +93,7 @@ public class AuthenticationController {
             GlobalResponse<AuthenticationResponse> errorResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .status(HttpStatus.UNAUTHORIZED.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -102,7 +102,7 @@ public class AuthenticationController {
             GlobalResponse<AuthenticationResponse> errorResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -111,7 +111,7 @@ public class AuthenticationController {
             GlobalResponse<AuthenticationResponse> errorResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .status(HttpStatus.BAD_GATEWAY.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -120,7 +120,7 @@ public class AuthenticationController {
             GlobalResponse<AuthenticationResponse> errorResponse = GlobalResponse.<AuthenticationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -144,7 +144,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -153,7 +153,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.BAD_GATEWAY.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -162,7 +162,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -186,7 +186,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -195,7 +195,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.BAD_GATEWAY.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -204,7 +204,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -228,7 +228,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -237,7 +237,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.BAD_GATEWAY.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -246,7 +246,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -271,7 +271,7 @@ public class AuthenticationController {
                 GlobalResponse<RegistrationResponse> globalResponse = GlobalResponse.<RegistrationResponse>builder()
                         .status(HttpStatus.NOT_ACCEPTABLE.value())
                         .path(httpServletRequest.getRequestURI())
-                        .errorMessage("Password and Confirm Password should be same.")
+                        .message("Password and Confirm Password should be same.")
                         .success(false)
                         .timestamp(Instant.now().toEpochMilli())
                         .build();
@@ -281,7 +281,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -290,7 +290,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -315,7 +315,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.UNAUTHORIZED.value())
                     .path(request.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -324,7 +324,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.NOT_ACCEPTABLE.value())
                     .path(request.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();
@@ -333,7 +333,7 @@ public class AuthenticationController {
             GlobalResponse<RegistrationResponse> errorResponse = GlobalResponse.<RegistrationResponse>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(request.getRequestURI())
-                    .errorMessage(e.getMessage())
+                    .message(e.getMessage())
                     .success(false)
                     .timestamp(Instant.now().toEpochMilli())
                     .build();

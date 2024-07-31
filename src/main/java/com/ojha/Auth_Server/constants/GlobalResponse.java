@@ -12,7 +12,7 @@ public class GlobalResponse <T> {
     private T data;
     private int status;
     private String path;
-    private String errorMessage;
+    private String message;
     private boolean success;
     private Long timestamp;
 }
