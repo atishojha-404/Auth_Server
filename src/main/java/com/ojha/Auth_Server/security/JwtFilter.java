@@ -52,6 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)){
+
                 if (!userDetails.isAccountNonLocked()) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("User account is locked.");
@@ -62,7 +63,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     response.getWriter().write("User account is not Enabled.");
                     return;
                 }
-
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -75,6 +75,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+
         }
         filterChain.doFilter(request, response);
     }

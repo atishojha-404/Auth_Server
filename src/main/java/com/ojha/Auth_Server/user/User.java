@@ -1,5 +1,4 @@
 package com.ojha.Auth_Server.user;
-
 import com.ojha.Auth_Server.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +28,6 @@ public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @Column(unique = true)
     private String email;
     private String password;
@@ -37,6 +35,9 @@ public class User implements UserDetails, Principal {
     @Column(name = "account_locked")
     private boolean accountLocked;
     private boolean enabled;
+
+    @Column(name = "first_login")
+    private boolean firstLogin = true;
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)

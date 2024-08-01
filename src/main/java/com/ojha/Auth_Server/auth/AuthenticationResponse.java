@@ -15,5 +15,6 @@ public class AuthenticationResponse {
     private String sessionId;
     private String userEmail;
     private String role;
+    private boolean firstLogin;
     private String errorMessage;
 }
