@@ -29,7 +29,9 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         initializeRole("SUPER_ADMIN");
         initializeRole("ADMIN");
-        initializeAdminUser();
+        initializeRole("USER");
+
+        initializeSuperAdminUser();
     }
 
     private void initializeRole(String roleName) {
@@ -40,15 +42,16 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    private void initializeAdminUser() {
-        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
+    private void initializeSuperAdminUser() {
+        if (userRepository.findByEmail("superadmin@gmail.com").isEmpty()) {
             var userRole = roleRepository.findByName("SUPER_ADMIN")
                     .orElseThrow(() -> new CustomException("ROLE was not initialized, Contact to admin."));
             userRepository.save(User.builder()
-                    .email("admin@gmail.com")
+                    .email("superadmin@gmail.com")
                     .password(passwordEncoder.encode("password"))
                     .accountLocked(false)
                     .enabled(false)
+                    .firstLogin(true)
                     .roles(List.of(userRole))
                     .build());
         }

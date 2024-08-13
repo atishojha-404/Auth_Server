@@ -47,12 +47,40 @@ public class AuthenticationService {
     private Long OTP_EXPIRE_IN;
 
 
-    public RegistrationResponse register(RegistrationRequest request) throws MessagingException {
+    public RegistrationResponse registerAdmin(RegistrationRequest request) throws MessagingException {
         try {
             if (generalUserRepository.findByEmail(request.getEmail()).isPresent()){
                 throw new CustomException("Email already in use, try with another email.");
             }else {
                 var userRole = generalRoleRepository.findByName("ADMIN")
+                        .orElseThrow(() -> new CustomException("ROLE was not initialized, Contact to admin."));
+                var user = User.builder()
+                        .email(request.getEmail())
+                        .password(passwordEncoder.encode(request.getPassword()))
+                        .accountLocked(false)
+                        .enabled(false)
+                        .firstLogin(true)
+                        .roles(List.of(userRole))
+                        .build();
+                generalUserRepository.save(user);
+                sendValidationEmail(user);
+
+                return RegistrationResponse.builder()
+                        .userEmail(user.getUsername())
+                        .role(user.getAuthorities().toString())
+                        .build();
+            }
+        }catch (CustomException e){
+            throw new CustomException(e.getMessage());
+        }
+    }
+
+    public RegistrationResponse registerUser(RegistrationRequest request) throws MessagingException {
+        try {
+            if (generalUserRepository.findByEmail(request.getEmail()).isPresent()){
+                throw new CustomException("Email already in use, try with another email.");
+            }else {
+                var userRole = generalRoleRepository.findByName("USER")
                         .orElseThrow(() -> new CustomException("ROLE was not initialized, Contact to admin."));
                 var user = User.builder()
                         .email(request.getEmail())

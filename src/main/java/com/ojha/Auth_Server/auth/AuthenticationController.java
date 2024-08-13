@@ -301,4 +301,27 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public ResponseEntity<GlobalResponse<String>> logout(HttpServletRequest httpServletRequest) {
+        try {
+            GlobalResponse<String > globalResponse = GlobalResponse.<String>builder()
+                    .status(HttpStatus.OK.value())
+                    .path(httpServletRequest.getRequestURI())
+                    .message("Logout Successful.")
+                    .success(true)
+                    .timestamp(Instant.now().toEpochMilli())
+                    .build();
+            return ResponseEntity.ok(globalResponse);
+        } catch (CustomException e) {
+            GlobalResponse<String> errorResponse = GlobalResponse.<String>builder()
+                    .status(HttpStatus.NOT_ACCEPTABLE.value())
+                    .path(httpServletRequest.getRequestURI())
+                    .message(e.getMessage())
+                    .success(false)
+                    .timestamp(Instant.now().toEpochMilli())
+                    .build();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponse);
+        }
+    }
 }

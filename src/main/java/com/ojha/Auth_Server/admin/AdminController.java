@@ -5,6 +5,7 @@ import com.ojha.Auth_Server.auth.RegistrationRequest;
 import com.ojha.Auth_Server.auth.RegistrationResponse;
 import com.ojha.Auth_Server.constants.GlobalResponse;
 import com.ojha.Auth_Server.handler.CustomException;
+import com.ojha.Auth_Server.user.UserDto;
 import com.ojha.Auth_Server.user.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -18,22 +19,23 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/super-admin")
-@Tag(name = "SuperAdmin")
-@PreAuthorize("hasAuthority('SUPER_ADMIN')")
-public class SuperAdminController {
+@RequestMapping("/api/v1/admin")
+@Tag(name = "ADMIN")
+@PreAuthorize("hasAuthority('ADMIN')")
+public class AdminController {
 
-    private final AuthenticationService authenticationService;
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/register-admin")
-    public ResponseEntity<GlobalResponse<RegistrationResponse>> registerAdmin(@RequestBody @Valid RegistrationRequest request,
+    @RequestMapping(method = RequestMethod.POST, value = "/register-user")
+    public ResponseEntity<GlobalResponse<RegistrationResponse>> registerUser(@RequestBody @Valid RegistrationRequest request,
                                                                          HttpServletRequest httpServletRequest) {
         try {
-            RegistrationResponse registrationResponse = authenticationService.registerAdmin(request);
+            RegistrationResponse registrationResponse = authenticationService.registerUser(request);
             GlobalResponse<RegistrationResponse> globalResponse = GlobalResponse.<RegistrationResponse>builder()
                     .data(registrationResponse)
                     .status(HttpStatus.ACCEPTED.value())
@@ -82,13 +84,38 @@ public class SuperAdminController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/lock-user-account")
-    public ResponseEntity<GlobalResponse<String>> lockUserAccount(@RequestParam String id,
+    @RequestMapping(method = RequestMethod.GET, value = "/get-all-users")
+    public ResponseEntity<GlobalResponse<List<UserDto>>> getAllUsers(HttpServletRequest httpServletRequest) {
+        try {
+            List<UserDto> users = userService.getAllUsers();
+            GlobalResponse<List<UserDto>> response = GlobalResponse.<List<UserDto>>builder()
+                    .data(users)
+                    .status(HttpStatus.OK.value())
+                    .path(httpServletRequest.getRequestURI())
+                    .message("Operation Successful")
+                    .success(true)
+                    .timestamp(Instant.now().toEpochMilli())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (RuntimeException e){
+            GlobalResponse<List<UserDto>> errorResponse = GlobalResponse.<List<UserDto>>builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .path(httpServletRequest.getRequestURI())
+                    .message(e.getMessage())
+                    .success(false)
+                    .timestamp(Instant.now().toEpochMilli())
+                    .build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/get-user-by-email")
+    public ResponseEntity<GlobalResponse<UserDto>> getUserByEmail(@RequestParam String email,
                                                                   HttpServletRequest httpServletRequest) {
         try {
-            String message = userService.lockUserAccount(id);
-            GlobalResponse<String> response = GlobalResponse.<String>builder()
-                    .data(message)
+            UserDto users = userService.getUserByEmail(email);
+            GlobalResponse<UserDto> response = GlobalResponse.<UserDto>builder()
+                    .data(users)
                     .status(HttpStatus.OK.value())
                     .path(httpServletRequest.getRequestURI())
                     .message("Operation Successful")
@@ -97,7 +124,7 @@ public class SuperAdminController {
                     .build();
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (RuntimeException e){
-            GlobalResponse<String> errorResponse = GlobalResponse.<String>builder()
+            GlobalResponse<UserDto> errorResponse = GlobalResponse.<UserDto>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
                     .message(e.getMessage())
@@ -108,13 +135,13 @@ public class SuperAdminController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/unlock-user-account")
-    public ResponseEntity<GlobalResponse<String>> unLockUser(@RequestParam String id,
-                                                             HttpServletRequest httpServletRequest) {
+    @RequestMapping(method = RequestMethod.GET, value = "/get-user-by-id")
+    public ResponseEntity<GlobalResponse<UserDto>> getUserById(@RequestParam String id,
+                                                               HttpServletRequest httpServletRequest) {
         try {
-            String message = userService.unLockUserAccount(id);
-            GlobalResponse<String> response = GlobalResponse.<String>builder()
-                    .data(message)
+            UserDto users = userService.getUserById(id);
+            GlobalResponse<UserDto> response = GlobalResponse.<UserDto>builder()
+                    .data(users)
                     .status(HttpStatus.OK.value())
                     .path(httpServletRequest.getRequestURI())
                     .message("Operation Successful")
@@ -123,7 +150,7 @@ public class SuperAdminController {
                     .build();
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (RuntimeException e){
-            GlobalResponse<String> errorResponse = GlobalResponse.<String>builder()
+            GlobalResponse<UserDto> errorResponse = GlobalResponse.<UserDto>builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .path(httpServletRequest.getRequestURI())
                     .message(e.getMessage())
@@ -133,5 +160,4 @@ public class SuperAdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-
 }
